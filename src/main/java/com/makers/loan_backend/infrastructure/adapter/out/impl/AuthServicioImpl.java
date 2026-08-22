@@ -1,6 +1,7 @@
 package com.makers.loan_backend.infrastructure.adapter.out.impl;
 
 import com.makers.loan_backend.application.port.in.UsuariosCasosDeUso;
+import com.makers.loan_backend.domain.exception.EmailYaExiste;
 import com.makers.loan_backend.domain.model.UsuarioRol;
 import com.makers.loan_backend.infrastructure.adapter.out.persistance.entity.UsuariosEntity;
 import com.makers.loan_backend.infrastructure.adapter.out.persistance.repository.UsuariosRepositorio;
@@ -13,6 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class AuthServicioImpl implements UsuariosCasosDeUso {
@@ -38,15 +41,17 @@ public class AuthServicioImpl implements UsuariosCasosDeUso {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword())
         );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
 
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         return jwtTokenProvider.generateToken(authentication);
     }
 
     @Override
     public String register(RegisterDto registerDTO) {
-        //usuariosRepositorio.findByEmail(registerDTO.getEmail()).orElseThrow(RuntimeException::new);
-
+        Optional<UsuariosEntity> usuarioExistente = usuariosRepositorio.findByEmail(registerDTO.getEmail());
+        if(usuarioExistente.isPresent()){
+            throw new EmailYaExiste();
+        }
         UsuariosEntity nuevoUsuario = new UsuariosEntity();
         nuevoUsuario.setEmail(registerDTO.getEmail());
 
@@ -56,13 +61,10 @@ public class AuthServicioImpl implements UsuariosCasosDeUso {
         nuevoUsuario.setUsuarioRol(UsuarioRol.USUARIO);
         usuariosRepositorio.save(nuevoUsuario);
 
-
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(registerDTO.getEmail(), registerDTO.getPassword())
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
-
 
         return jwtTokenProvider.generateToken(authentication);
     }

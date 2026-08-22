@@ -30,6 +30,7 @@ public class UsuariosEntity {
         this.usuarioRol = usuarioRol;
     }
 
+
     public UsuariosEntity() {
     }
 

@@ -8,7 +8,7 @@ import com.makers.loan_backend.infrastructure.adapter.out.persistance.repository
 import com.makers.loan_backend.infrastructure.adapter.out.persistance.repository.UsuariosRepositorio;
 import com.makers.loan_backend.infrastructure.dto.EstadoDto;
 import com.makers.loan_backend.infrastructure.dto.PrestamoResponse;
-import com.makers.loan_backend.infrastructure.dto.UsuarioResponse;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,19 +26,16 @@ public class PrestamoImplPuerto implements PrestamoRepositorioPuerto {
 
     @Override
     public void guardarPrestamo(Prestamo prestamo) {
-        UsuariosEntity usuario = usuariosRepositorio.findById(prestamo.getUsuarioId())
+        UsuariosEntity usuario = usuariosRepositorio.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName())
                 .orElseThrow(RuntimeException::new);
         prestamosRepositorio.save(new PrestamosEntity(usuario,prestamo.getAmount(),prestamo.getStatus(),prestamo.getPlazo()));
     }
 
     @Override
-    public UsuarioResponse todosPrestamosUsuario(long id) {
-        UsuariosEntity usuario = usuariosRepositorio.findById(id)
+    public List<PrestamoResponse> todosPrestamosUsuario() {
+        UsuariosEntity usuario = usuariosRepositorio.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName())
                 .orElseThrow(RuntimeException::new);
-        UsuarioResponse response = new UsuarioResponse();
-        response.setId(usuario.getId());
-        response.setEmail(usuario.getEmail());
-        List<PrestamoResponse> prestamos = usuario.getPrestamos().stream()
+        return usuario.getPrestamos().stream()
                 .map(prestamoEntity -> {
                     PrestamoResponse prestamoDto = new PrestamoResponse();
                     prestamoDto.setId(prestamoEntity.getId());
@@ -48,9 +45,6 @@ public class PrestamoImplPuerto implements PrestamoRepositorioPuerto {
                     return prestamoDto;
                 })
                 .toList();
-        response.setPrestamos(prestamos);
-
-        return response;
     }
 
     @Override

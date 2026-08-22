@@ -1,13 +1,13 @@
 package com.makers.loan_backend.infrastructure.adapter.in.web;
 import com.makers.loan_backend.application.port.in.PrestamosCasosDeUso;
-import com.makers.loan_backend.infrastructure.dto.ApiResponse;
-import com.makers.loan_backend.infrastructure.dto.EstadoDto;
-import com.makers.loan_backend.infrastructure.dto.PrestamoDto;
-import com.makers.loan_backend.infrastructure.dto.UsuarioResponse;
+import com.makers.loan_backend.infrastructure.dto.*;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -19,9 +19,10 @@ public class PrestamosController {
         this.prestamosCasosDeUso = prestamosCasosDeUso;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UsuarioResponse> prestamos(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(prestamosCasosDeUso.todosPrestamosUsuario(id));
+    @GetMapping("/my-loans")
+    public ResponseEntity<List<PrestamoResponse>> prestamos() {
+        System.out.println("me quiero endeudar " + SecurityContextHolder.getContext().getAuthentication().getName());
+        return ResponseEntity.status(HttpStatus.OK).body(prestamosCasosDeUso.todosPrestamosUsuario());
     }
     @PostMapping
     public ResponseEntity<ApiResponse> crearPrestamo(@Valid @RequestBody PrestamoDto prestamoDto){

@@ -4,7 +4,6 @@ import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 
 public class PrestamoDto {
-    private Long userId;
     @NotNull(message = "El monto del préstamo es obligatorio")
     @Positive(message = "El monto debe ser mayor a cero")
     @Digits(integer = 6, fraction = 2, message = "El formato del dinero es incorrecto son demasiados digitos")
@@ -12,21 +11,15 @@ public class PrestamoDto {
 
     @Positive(message = "El plazo debe ser un número mayor a cero")
     @Min(value = 5, message = "Debes agregar al menos 5 Cuotas")
-    @Max(value = 50, message = "No puedes superar el límite de 50 cuoyas")
+    @Max(value = 50, message = "No puedes superar el límite de 50 cuotas")
     private int plazo;
 
-    public PrestamoDto(Long userId, BigDecimal amount, int plazo) {
-        this.userId = userId;
+    public PrestamoDto(BigDecimal amount, int plazo) {
         this.amount = amount;
         this.plazo = plazo;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public PrestamoDto() {
     }
 
     public @NotNull(message = "El monto del préstamo es obligatorio") @Positive(message = "El monto debe ser mayor a cero") @Digits(integer = 6, fraction = 2, message = "El formato del dinero es incorrecto son demasiados digitos") BigDecimal getAmount() {
@@ -37,11 +30,14 @@ public class PrestamoDto {
         this.amount = amount;
     }
 
+    @Positive(message = "El plazo debe ser un número mayor a cero")
+    @Min(value = 5, message = "Debes agregar al menos 5 Cuotas")
+    @Max(value = 50, message = "No puedes superar el límite de 50 cuoyas")
     public int getPlazo() {
         return plazo;
     }
 
-    public void setPlazo(int plazo) {
+    public void setPlazo(@Positive(message = "El plazo debe ser un número mayor a cero") @Min(value = 5, message = "Debes agregar al menos 5 Cuotas") @Max(value = 50, message = "No puedes superar el límite de 50 cuoyas") int plazo) {
         this.plazo = plazo;
     }
 }

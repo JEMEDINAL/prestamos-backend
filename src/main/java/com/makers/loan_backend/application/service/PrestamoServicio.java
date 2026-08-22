@@ -6,8 +6,11 @@ import com.makers.loan_backend.domain.model.Prestamo;
 import com.makers.loan_backend.domain.model.PrestamoStatus;
 import com.makers.loan_backend.infrastructure.dto.EstadoDto;
 import com.makers.loan_backend.infrastructure.dto.PrestamoDto;
-import com.makers.loan_backend.infrastructure.dto.UsuarioResponse;
+import com.makers.loan_backend.infrastructure.dto.PrestamoResponse;
+
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PrestamoServicio implements PrestamosCasosDeUso {
@@ -20,13 +23,13 @@ public class PrestamoServicio implements PrestamosCasosDeUso {
 
     @Override
     public void crearPrestamo(PrestamoDto prestamoDto) {
-        Prestamo prestamo = new Prestamo(prestamoDto.getUserId(),prestamoDto.getAmount(),prestamoDto.getPlazo());
+        Prestamo prestamo = new Prestamo(prestamoDto.getAmount(),prestamoDto.getPlazo());
         prestamoRepositorioPuerto.guardarPrestamo(prestamo);
     }
 
     @Override
-    public UsuarioResponse todosPrestamosUsuario(long id) {
-        return prestamoRepositorioPuerto.todosPrestamosUsuario(id);
+    public List<PrestamoResponse> todosPrestamosUsuario() {
+        return prestamoRepositorioPuerto.todosPrestamosUsuario();
     }
 
     @Override

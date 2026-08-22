@@ -3,25 +3,17 @@ package com.makers.loan_backend.domain.model;
 import java.math.BigDecimal;
 
 public class Prestamo {
-    private Long usuarioId;
     private BigDecimal amount;
     private PrestamoStatus status;
     private int plazo;
 
-    public Prestamo(Long usuarioId,BigDecimal amount,int plazo) {
-        this.usuarioId = usuarioId;
+    public Prestamo(BigDecimal amount,int plazo) {
+
         this.amount = amount;
         this.status = PrestamoStatus.PENDIENTE;
         this.plazo = plazo;
     }
 
-    public Long getUsuarioId() {
-        return usuarioId;
-    }
-
-    public void setUsuarioId(Long usuarioId) {
-        this.usuarioId = usuarioId;
-    }
 
     public BigDecimal getAmount() {
         return amount;

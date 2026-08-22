@@ -23,6 +23,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private ConsumidorDetallesUsuarioServicio userDetailsService;
 
+    public JwtAuthenticationFilter(JwtTokenProvider tokenProvider, ConsumidorDetallesUsuarioServicio userDetailsService) {
+        this.tokenProvider = tokenProvider;
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
