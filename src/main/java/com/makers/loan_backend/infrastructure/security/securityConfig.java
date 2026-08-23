@@ -67,20 +67,16 @@ public class securityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // Permitimos explícitamente a tu aplicación de Angular
         configuration.setAllowedOrigins(List.of("http://localhost:4200"));
 
-        // Permitimos todos los métodos de red (GET para traer, POST para crear, etc.)
         configuration.setAllowedMethods(List.of("GET", "POST", "PATCH", "DELETE", "OPTIONS"));
 
-        // Permitimos las cabeceras comunes y la de "Authorization" donde va tu Token JWT
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
 
-        // Permitimos el intercambio de credenciales si Angular lo requiere
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); // Aplica a todos los controladores
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 }
