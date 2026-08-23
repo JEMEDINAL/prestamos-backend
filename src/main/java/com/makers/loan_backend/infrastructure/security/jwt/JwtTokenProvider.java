@@ -34,7 +34,7 @@ public class JwtTokenProvider {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
         Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
-        System.out.println("que es esto paraaa : " + userDetails.getUsername());
+        System.out.println("que es esto paraaa : " + userDetails.getUsername() + " y el rol " + userDetails.getAuthorities());
         return Jwts.builder()
                 .subject(userDetails.getUsername())
                 .claim("rol",rol)

@@ -30,6 +30,6 @@ public class UsuarioController {
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginDto loginDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(new AuthResponse(loginDTO.getEmail(),
-                "Registrado correctamente",usuariosCasosDeUso.login(loginDTO),true));
+                "Has iniciado sesion correctamente",usuariosCasosDeUso.login(loginDTO),true));
     }
 }

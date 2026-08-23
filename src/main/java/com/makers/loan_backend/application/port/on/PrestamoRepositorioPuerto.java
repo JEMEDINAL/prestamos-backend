@@ -12,4 +12,5 @@ public interface PrestamoRepositorioPuerto {
     List<PrestamoResponse> todosPrestamosUsuario();
     void cambiarEstado(long id, EstadoDto estado);
     void eliminarPrestamo(long id);
+    List<UsuarioResponse> usuariosYPrestamos();
 }

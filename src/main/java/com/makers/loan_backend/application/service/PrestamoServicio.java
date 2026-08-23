@@ -3,11 +3,11 @@ package com.makers.loan_backend.application.service;
 import com.makers.loan_backend.application.port.in.PrestamosCasosDeUso;
 import com.makers.loan_backend.application.port.on.PrestamoRepositorioPuerto;
 import com.makers.loan_backend.domain.model.Prestamo;
-import com.makers.loan_backend.domain.model.PrestamoStatus;
 import com.makers.loan_backend.infrastructure.dto.EstadoDto;
 import com.makers.loan_backend.infrastructure.dto.PrestamoDto;
 import com.makers.loan_backend.infrastructure.dto.PrestamoResponse;
 
+import com.makers.loan_backend.infrastructure.dto.UsuarioResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,6 +41,11 @@ public class PrestamoServicio implements PrestamosCasosDeUso {
     @Override
     public void eliminarPrestamo(long id) {
         prestamoRepositorioPuerto.eliminarPrestamo(id);
+    }
+
+    @Override
+    public List<UsuarioResponse> usuariosYPrestamos() {
+        return prestamoRepositorioPuerto.usuariosYPrestamos();
     }
 
 

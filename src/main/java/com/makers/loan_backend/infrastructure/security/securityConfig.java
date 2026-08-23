@@ -1,9 +1,11 @@
 package com.makers.loan_backend.infrastructure.security;
 
+import com.makers.loan_backend.domain.model.UsuarioRol;
 import com.makers.loan_backend.infrastructure.security.jwt.JwtAuthenticationFilter;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -47,10 +49,11 @@ public class securityConfig {
                 .csrf(csrf -> csrf.disable())
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(PathRequest.toH2Console()).permitAll()
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/prestamos/**").authenticated()
+                                .requestMatchers(PathRequest.toH2Console()).permitAll()
+                                .requestMatchers("/prestamos/users").hasRole(UsuarioRol.ADMIN.name())
+                                .requestMatchers(HttpMethod.PATCH, "/prestamos/*/estado").hasRole(UsuarioRol.ADMIN.name())
+                                .requestMatchers("/api/auth/**").permitAll()
+                                .requestMatchers("/prestamos/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -68,7 +71,7 @@ public class securityConfig {
         configuration.setAllowedOrigins(List.of("http://localhost:4200"));
 
         // Permitimos todos los métodos de red (GET para traer, POST para crear, etc.)
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PATCH", "DELETE", "OPTIONS"));
 
         // Permitimos las cabeceras comunes y la de "Authorization" donde va tu Token JWT
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
