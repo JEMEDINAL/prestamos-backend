@@ -37,11 +37,9 @@ public class AuthServicioImpl implements UsuariosCasosDeUso {
     }
     @Override
     public String login(LoginDto loginDTO) {
-
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword())
         );
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return jwtTokenProvider.generateToken(authentication);
     }
