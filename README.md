@@ -100,3 +100,6 @@ El sistema utiliza Ehcache para almacenar en memoria caché consultas frecuentes
 
 * **Sin Estado (Stateless):** La aplicación no almacena sesiones en el servidor (`SessionCreationPolicy.STATELESS`). Cada petición HTTP que ingresa por los adaptadores web debe incluir las credenciales de autorización correspondientes.
 * **Seguridad en Operaciones Críticas:** Los casos de uso implementan `@Transactional` para la modificación de estados de préstamos, asegurando que si ocurre un fallo durante el proceso de aprobación/rechazo en la infraestructura, la base de datos realice un *rollback* automático sin afectar el dominio puro.
+
+## 🧩 Ecosistema de Microservicios
+* [👤 Frontend](https://github.com/JEMEDINAL/EMAZON-MicroService-Users) - Angular.
