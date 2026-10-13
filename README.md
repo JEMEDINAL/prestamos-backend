@@ -102,4 +102,4 @@ El sistema utiliza Ehcache para almacenar en memoria caché consultas frecuentes
 * **Seguridad en Operaciones Críticas:** Los casos de uso implementan `@Transactional` para la modificación de estados de préstamos, asegurando que si ocurre un fallo durante el proceso de aprobación/rechazo en la infraestructura, la base de datos realice un *rollback* automático sin afectar el dominio puro.
 
 ## 🧩 Ecosistema de Microservicios
-* [👤 Frontend](https://github.com/JEMEDINAL/EMAZON-MicroService-Users) - Angular.
+* [👤 Frontend](https://github.com/JEMEDINAL/frontend-prestamos) - Angular.
